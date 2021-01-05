@@ -1,7 +1,6 @@
-function [tri, B] = scattered_interpolation(P)
+function [tri, B] = scattered_interpolation(P, dF)
     V = P(:,1:2); % triangle nodes
     F = P(:,3); % values
-    dF = derivative_estimation(P);
     tri = delaunayTriangulation(V);
     
     [N,~] = size(tri.ConnectivityList);
@@ -15,19 +14,16 @@ function [tri, B] = scattered_interpolation(P)
         x3 = V(l,1); y3 = V(l,2);
         
         Fxj = dF(j,1); Fyj = dF(j,2);
-        Fe1j = (x3 - x2) * Fxj + (y3 - y2) * Fyj;
         Fe2j = (x1 - x3) * Fxj + (y1 - y3) * Fyj;
         Fe3j = (x2 - x1) * Fxj + (y2 - y1) * Fyj;
         
         Fxk = dF(k,1); Fyk = dF(k,2);
         Fe1k = (x3 - x2) * Fxk + (y3 - y2) * Fyk;
-        Fe2k = (x1 - x3) * Fxk + (y1 - y3) * Fyk;
         Fe3k = (x2 - x1) * Fxk + (y2 - y1) * Fyk;
         
         Fxl = dF(l,1); Fyl = dF(l,2);
         Fe1l = (x3 - x2) * Fxl + (y3 - y2) * Fyl;
         Fe2l = (x1 - x3) * Fxl + (y1 - y3) * Fyl;
-        Fe3l = (x2 - x1) * Fxl + (y2 - y1) * Fyl;
         
         b300 = F(j);
         b210 = F(j) + Fe3j / 3;
@@ -41,13 +37,29 @@ function [tri, B] = scattered_interpolation(P)
         b102 = F(l) + Fe2l / 3;
         b012 = F(l) - Fe1l / 3;
         
-        b11 = nan;
+        h1 = -(x3*x1 + y3*y1) / (x1^2 + y1^2);
+        b11j = (b120 + b102 + h1 * (b012 - b021 - b003)) / 2 + ...
+            (1 - h1) * (2 * b021 - b030 - b012);
         
-        B{i,1} = [
+        h2 = -(x1*x2 + y1*y2) / (x2^2 + y2^2);
+        b11k = (b012 + b210 + h2 * (b201 - b102 - b300)) / 2 + ...
+            (1 - h2) * (2 * b102 - b003 - b201);
+        
+        h3 = -(x2*x3 + y2*y3) / (x3^2 + y3^2);
+        b11l = (b201 + b021 + h3 * (b120 - b210 - b030)) / 2 + ...
+            (1 - h3) * (2 * b210 - b300 - b120);
+        
+        BT = [
             b300 b210 b120 b030; ...
-            b201 b111 b021 nan; ...
+            b201 b11j b021 nan; ...
             b102 b012 nan nan; ...
             b003 nan nan nan; ...
         ];
+        
+        B{i,1} = BT;
+        BT(2,2) = b11k;
+        B{i,2} = BT;
+        BT(2,2) = b11l;
+        B{i,3} = BT;
     end
 end
