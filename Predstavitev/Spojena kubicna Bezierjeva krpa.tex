@@ -1,0 +1,52 @@
+\documentclass[ignorenonframetext]{beamer}
+
+%\documentclass[handout,ignorenonframetext]{beamer}
+
+% Standardni paketi:
+\usepackage[slovene]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% Paketi, s katerimi določimo željene pisave:
+\usepackage{mathptmx}
+\usepackage{helvet} % splošen font pisave
+\usepackage{courier} %font pisave v okolju verbatim
+
+% Kot v article lahko definiramo nova okolja:
+\newtheorem{definicija}{Definicija}
+\newtheorem{izrek}{Izrek}
+\newtheorem{zgled}{Zgled}
+
+\mode<article>{
+\setlength{\parindent}{0cm}
+\usepackage{amsfonts}
+\let\frametitle\subsection %%naslovi slidov postanejo naslovi podrazdelkov v article
+}
+
+\mode<beamer>{
+\usetheme{Rochester}}
+
+\mode<handout>{
+\usetheme{AnnArbor}
+
+\useoutertheme{infolines} %določi glavo in nogo
+\setbeamercovered{transparent} %neodkriti tekst je rahlo viden
+\setbeamercolor{background canvas}{bg=black!5}
+\usepackage{pgfpages} %2 na 1 stran
+\pgfpagesuselayout{2 on 1}[a4paper, border shrink=5mm]
+}
+
+\title{Spojena kubična Bezierjeva krpa}
+\author{Matija Šteblaj, Nejc Ševerkar}
+\date{14. 1. 2021}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+
+
+\end{document}
