@@ -9,12 +9,9 @@ function Z = scattered_interpolation_values(tri,B,XY)
         T = tri.Points(Ti,:);
         
         uvw = pointbary(T, xy);
-        B1 = B{ti,1}; 
-        B2 = B{ti,2}; 
-        B3 = B{ti,3};
-        P1 = decasteljau3(B1,uvw);
-        P2 = decasteljau3(B2,uvw);
-        P3 = decasteljau3(B3,uvw);
+        P1 = decasteljau3(B{ti,1},uvw);
+        P2 = decasteljau3(B{ti,2},uvw);
+        P3 = decasteljau3(B{ti,3},uvw);
         
         u = uvw(1); v = uvw(2); w = uvw(3);
         vw2 = (v * w)^2; 
