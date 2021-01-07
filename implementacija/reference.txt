@@ -1,0 +1,1 @@
+https://www.mathworks.com/help/matlab/math/normalize-data-with-differing-magnitudes.html

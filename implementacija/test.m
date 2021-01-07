@@ -1,15 +1,20 @@
 function [] = test()
-    f = @(x,y) 3*(1-x).^2.*exp(-x.^2 - (y+1).^2) ...
-        - 10*(x/5 - x.^3 - y.^5).*exp(-x.^2-y.^2) ...
-        - 1/3*exp(-(x+1).^2 - y.^2);
+    f2 = @(x,y) 0.75 * exp(-((9*x-2).^2 + (9*y-2).^2/4)) ...
+        + 0.75 * exp(-(9*x+1).^2/49 - (9*y+1)/10) ...
+        + 0.5 * exp(-((9*x-7).^2 + (9*y-3).^2)/4) ...
+        - 0.2 * exp(-(9*x-4).^2 - (9*y-7).^2);
     
-    XY = rand(100,2);
-    Z = f(XY(:,1), XY(:,2));
-    dF = derivative_estimation([XY,Z]);
-    [tri,B] = scattered_interpolation([XY,Z],dF);
+    n = 150; % random podatki
+    m = 50; % m x m meshgrid
     
-    [X,Y] = meshgrid(linspace(0,1,50));
-    Z_approx = scattered_interpolation_values(tri,B,[X(:),Y(:)]);
+    XY = rand(n,2);
+    X = XY(:,1); Y = XY(:,2); Z = f2(X, Y); % podatki
+    % scatter3(X,Y,Z); % razsevni diagram podatkov
+    [X2,Y2] = meshgrid(linspace(0,1,m)); % testne tocke aproksimacije
     
-    surf(X,Y,reshape(Z_approx,50,50));
+    dF = derivative_estimation([X,Y,Z]);
+    [tri,B] = scattered_interpolation([X,Y,Z],dF); % podatki za opis krp
+    ZApprox = scattered_interpolation_values(tri,B,[X2(:),Y2(:)]);
+    
+    surf(X2,Y2,reshape(ZApprox,m,m));
 end
