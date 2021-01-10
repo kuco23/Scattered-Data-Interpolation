@@ -501,9 +501,11 @@ b_{111}^1 =& \frac{1}{2}\bigg(b_{120}+b_{102}+h_1(2b_{012}-b_{021}-b_{003})\\
 
 \begin{frame}
 \frametitle{Lokalna shema}
-Zakaj je to dovolj za $C^1$ zveznost čez stranico $e_1$? Na sosednjem trikotniku bi naredili isti postopek in dobili linearen
+Zakaj je to dovolj za $C^1$ zveznost čez stranico $e_1$? 
+
+Postopek ponovimo na sosednjem trikotniku in dobimo linearen normalen odvod (v nasprotno smer), kar pomeni da je linearen tudi normalen odvod v smeri 1. trikotnika. Te dva odvoda se ujemata v ogliščih $V_2$, $V_3$ (shema tam interpolira odvode), torej povsod, ker sta linearna.
 \begin{figure}
-		\begin{tikzpicture}%[scale=0.8]
+		\begin{tikzpicture}[scale=0.8]
 			\node (sidro) at (0,0) {};
 			
 			\node (V1) at ($(sidro)+(-3,-1)$) {};
@@ -538,5 +540,18 @@ Zakaj je to dovolj za $C^1$ zveznost čez stranico $e_1$? Na sosednjem trikotnik
 
 \end{frame}
 
+\begin{frame}
+\frametitle{Celotna shema}
+Parametrizacija na celotnem trikotniku bo konveksna kombinacija shem $P_1$, $P_2$, $P_3$:
+\[
+\begin{split}
+	P(u,v,w) =& \frac{v^2 w^2 P_1 + w^2 u^2 P_2 + u^2 v^2 P_3}{v^2 w^2 + v^2 u^2 + u^2 w^2}\\
+		=& u^3 \text{ }b_{300} + 3u^2 v \text{ }b_{210} + 3u^2 w \text{ }b_{201} + 3u v^2 \text{ }b_{120} \\
+		&+ 3uw^2 \text{ }b_{102} + v^3 \text{ }b_{030} + 3v^2 w \text{ }b_{021} + 3v w^2 \text{ }b_{012} \\
+		&+ w^3 \text{ }b_{003} \\
+		&+ 6uvw \frac{v^2 w^2 \text{ } b_{111}^1 + w^2 u^2 \text{ } b_{111}^2 + u^2 v^2 \text{ }b_{111}^3}{v^2 w^2 + v^2 u^2 + u^2 w^2}
+\end{split}
+\]
+\end{frame}
 
 \end{document}
