@@ -1,14 +1,17 @@
-function Z = scattered_interpolation_values(tri,B,XY)
-    [N,~] = size(XY);
+function Z = goodmansaidsplinevals(tri,B,X,Y)
+    [N,~] = size(X);
     Z = zeros(N,1);
     for i=1:N
-        xy = XY(i,:);
-        ti = tri.pointLocation(xy(1), xy(2));
-        if isnan(ti) continue; end
+        x = X(i); y = Y(i);
+        ti = tri.pointLocation(x, y);
+        if isnan(ti) % tocka xy ni v triangulaciji
+            Z(i) = nan;
+            continue; 
+        end
         Ti = tri.ConnectivityList(ti,:);
         T = tri.Points(Ti,:);
         
-        uvw = pointbary(T, xy);
+        uvw = pointbary(T, [x,y]);
         P1 = decasteljau3(B{ti,1},uvw);
         P2 = decasteljau3(B{ti,2},uvw);
         P3 = decasteljau3(B{ti,3},uvw);
