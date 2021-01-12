@@ -1,7 +1,7 @@
 function [] = test_derivativeinterpol()
     n = 100;
     
-   [f,dfx,dfy,Hf] = testfunction1();
+   [f,dfx,dfy,~] = testfunction1();
    [X,Y] = meshgrid(linspace(-3,3,50));
    
    xk = 0.5; yk = 1.2; zk = f(xk,yk);

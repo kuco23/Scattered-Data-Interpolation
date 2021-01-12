@@ -1,8 +1,6 @@
 function [] = test_derivativeest()
-    f = testfunction3();
-    dfx = @(x,y) cos(x.*y).*y - sin(x.*y).*y;
-    dfy = @(x,y) cos(x.*y).*x - sin(x.*y).*x;
-    [f,dfx,dfy,~] = testfunction1();
+    [f,dfx,dfy,~] = testfunction3();
+    %[f,dfx,dfy,~] = testfunction1();
     
     n =40;
     

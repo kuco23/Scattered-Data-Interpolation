@@ -1,7 +1,7 @@
 function [] = test_goodmansaidvsargyris()
     n = 10; % stevilo aproksimacijskih tock
     m = 50; % m x m je dimenzija grida, ko risemo aproksimacijo
-    a = 0; b = 1; % [a,b] je interval na katerem aproksimiramo
+    a = -1; b = 1; % [a,b] je interval na katerem aproksimiramo
     [f,dfx,dfy,Hf] = testfunction1();
     
     XY = rand(n,2)*(b-a)+a; % testne vrednosti
