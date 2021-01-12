@@ -1,7 +1,7 @@
-function [] = test_goodmansaid()
-    f = testfunction1();
+function [] = test_goodmansaidd()
+    [f,dfx,dfy,~] = testfunction1();
     
-    n = 150; % random podatki 150/1500
+    n = 50; % random podatki 150/1500
     m = 50; % m x m meshgrid
     a = -1; b = 1; % range of approximation
     
@@ -10,14 +10,14 @@ function [] = test_goodmansaid()
     tri = delaunayTriangulation(X,Y); % triangulacija
     [X2,Y2] = meshgrid(linspace(a,b,m)); % testne tocke aproksimacije
     
-    dF = derivativeest([X,Y,F]);
+    dF = [dfx(X,Y), dfy(X,Y)];
     S = goodmansaidspline(tri,F,dF); % podatki za opis krp
     FApprox = goodmansaidsplinevals(tri,S,X2(:),Y2(:));
     
     subplot(1,2,1);
-    trisurf(tri.ConnectivityList,X,Y,F);
-    title(strcat(int2str(n),' testnih tock'));
+    surf(X2,Y2,f(X2,Y2));
+    title('ocenjevana funkcija');
     subplot(1,2,2);
     surf(X2,Y2,reshape(FApprox,m,m));
-    title('goodman-said');
+    title(strcat("aproksimacija na ", int2str(n), " tockah, z znanimi odvodi"));
 end
