@@ -1,7 +1,7 @@
 function [] = test_goodmansaid()
-    f = testfunction1();
+    f = testfunction1();%1,3
     
-    n = 150; % random podatki
+    n = 150; % random podatki 150/1500
     m = 50; % m x m meshgrid
     a = -1; b = 1; % range of approximation
     
@@ -22,4 +22,5 @@ function [] = test_goodmansaid()
     title(strcat(int2str(n),' testnih tock'));
     subplot(1,2,2);
     surf(X2,Y2,reshape(FApprox,m,m));
+    title('goodman-said');
 end

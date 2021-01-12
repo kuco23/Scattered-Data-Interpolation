@@ -1,5 +1,5 @@
 function [] = test_goodmansaidvsargyris()
-    n = 10; % stevilo aproksimacijskih tock
+    n = 100; % stevilo aproksimacijskih tock
     m = 50; % m x m je dimenzija grida, ko risemo aproksimacijo
     a = 0; b = 1; % [a,b] je interval na katerem aproksimiramo
     [f,dfx,dfy,Hf] = testfunction1();
@@ -26,6 +26,10 @@ function [] = test_goodmansaidvsargyris()
     subplot(1,2,2);
     surf(X2,Y2,F2);
     title('argyris');
+    
+    %subplot(1,3,3);
+    %triplot(tri);
+    %title('triangulacija');
     
     % primerjava napak
 %     subplot(1,2,1);
