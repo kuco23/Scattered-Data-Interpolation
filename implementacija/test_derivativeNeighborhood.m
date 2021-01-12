@@ -1,4 +1,4 @@
-function [] = testytest()
+function [] = test_derivativeNeighborhood()
     XY = rand(250,2);
     x1 = 0.5; y1 = 0.5; r = 0.1;
     

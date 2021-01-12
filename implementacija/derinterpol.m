@@ -3,7 +3,7 @@ function u = derinterpol(XY,Z,pi)
  
     dpi = vecnorm(XY-pi(1:2),2,2); % oddaljenost tock od pi
     H = mink(dpi,M+1);
-    R = H(M+1); % radij okoli pi, znotraj katerega tocke vplivajo na odvod
+    R = 2 * H(M+1); % radij okoli pi, znotraj katerega tocke vplivajo na odvod
     filt = (0 < dpi & dpi <= R);
     S = [XY(filt,:),Z(filt)]; % tocke znotraj radija (brez pi)
     D = dpi(filt); % oddaljenost tock znotraj S

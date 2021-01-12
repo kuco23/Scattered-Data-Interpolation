@@ -1,5 +1,5 @@
 function [] = test_goodmansaidvsargyris()
-    n = 4; % stevilo aproksimacijskih tock
+    n = 10; % stevilo aproksimacijskih tock
     m = 50; % m x m je dimenzija grida, ko risemo aproksimacijo
     a = 0; b = 1; % [a,b] je interval na katerem aproksimiramo
     [f,dfx,dfy,Hf] = testfunction1();

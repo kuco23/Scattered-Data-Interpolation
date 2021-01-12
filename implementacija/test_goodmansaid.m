@@ -19,6 +19,7 @@ function [] = test_goodmansaid()
     
     subplot(1,2,1);
     trisurf(tri.ConnectivityList,X,Y,F);
+    title(strcat(int2str(n),' testnih tock'));
     subplot(1,2,2);
     surf(X2,Y2,reshape(FApprox,m,m));
 end
