@@ -1,8 +1,8 @@
 function [] = test_derivativeest()
     [f,dfx,dfy,~] = testfunction3();
-    %[f,dfx,dfy,~] = testfunction1();
+    [f,dfx,dfy,~] = testfunction1();
     
-    n =40;
+    n = 15;
     
     [X,Y] = meshgrid(linspace(-1,1,n));
     Z = f(X,Y);
@@ -13,7 +13,7 @@ function [] = test_derivativeest()
     
     subplot(1,2,1);
     surf(X,Y,f(X,Y));
-    title('ocenjevana funkcija');
+    title('ocenjevana ploskev');
     hold on;
     subplot(1,2,2);
     surf(X,Y,derr);

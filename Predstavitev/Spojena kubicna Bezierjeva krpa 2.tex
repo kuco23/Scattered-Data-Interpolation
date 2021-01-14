@@ -94,17 +94,16 @@ $$p_x(x_k,y_k) = d \quad \text{in} \quad p_y(x_k,y_k) = e.$$
 
 \begin{frame}
 \frametitle{3. Korak}
-Naravno si želimo, da bi ta polinom dobro aproksimiral vrednosti $z_j$ za $j \in J_k$. 
-To izrazimo z minimizacijskim problemom najmanjših kvadratov
+Naravno si želimo, da bi ta polinom dobro aproksimiral vrednosti $z_j$ za $j = 1, \dots, n_k$. Minimiziramo torej
 $$\sum_{j =1}^{n_k} (w^k_j \cdot (p(x_j,y_j) - z_j))^2 = \norm{W_kAu - W_kv}^2,$$
-kjer je matrika $A$ enaka
+kjer je $u = [a,b,c,d,e]^T$ iskan vektor, $A$ matrika
 \begin{equation*}
 \begin{vmatrix}
 (x_1 - x_k)^2 &  (x_1 - x_k) (y_1 - y_k) & (y_1 - y_k)^2 & (x_1 - x_k) & (y_1 - y_k) \\
 (x_2 - x_k)^2 &  (x_2 - x_k) (y_2 - y_k) & (y_2 - y_k)^2 & (x_2 - x_k) & (y_2 - y_k) \\
 \vdots & \vdots & \vdots & \vdots & \vdots \\
 (x_{n_k} - x_k)^2 & (x_{n_k} - x_k) (y_{n_k} - y_k) & (y_{n_k} - y_k)^2 & (x_{n_k} - x_k) & (y_{n_k} - y_k)
-\end{vmatrix}
+\end{vmatrix},
 \end{equation*}
 $W_k = \text{diag}(w^k_1, w^k_2, \cdots, w^k_{n_k})$ ter $v = [z_1 - z_k, \cdots, z_{n_k} - z_k]^T$.
 \end{frame}
@@ -121,8 +120,16 @@ Konstrukcija poteka v treh korakih
 \begin{enumerate}
 \item V vsaki točki $p_k$ ocenimo parcialne odvode
 \item Trianguliramo točke $(x_i,y_i)_i$
-\item Na vsakem trikotniku konstruiramo lokalno shemo z metodo Goodman-Said in shranimo vrednosti 
-$$b_{ijk}, b_{111}^1, b_{111}^2, b_{111}^3 \quad i + j + k = 1, ijk \neq 1.$$
+\item Na vsakem trikotniku $T$ konstruiramo lokalno shemo z metodo Goodman-Said in shranimo matriko 
+\begin{equation*}
+B_T = 
+\begin{vmatrix}
+b_{300} & b_{210} & b_{120} & b_{030} \\
+b_{201} & \openbox & b_{021} & \openbox  \\
+b_{102} & b_{012} & \openbox & b_{1112} \\
+b_{003} & \openbox & b_{1113} & b_{1111}
+\end{vmatrix}
+\end{equation*}
 Podatki na vseh trikotnikih podajo našo aproksimacijo.
 \end{enumerate}
 

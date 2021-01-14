@@ -1,7 +1,7 @@
 function [] = test_faceinterpol()
-    m = 80; step = 8;
+    m = 80; step = 5;
     
-    P = load('./face/face10.vert');
+    P = load('./face/face15.vert');
     P = P(1:step:end,:);
     X = P(:,1); Y = P(:,2); F = P(:,3);
 

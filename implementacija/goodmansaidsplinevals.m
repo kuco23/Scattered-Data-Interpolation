@@ -11,12 +11,11 @@ function Z = goodmansaidsplinevals(tri,B,X,Y)
         Ti = tri.ConnectivityList(ti,:);
         T = tri.Points(Ti,:);
         b = B{ti};
-         
         uvw = pointbary(T, [x,y]);
         u = uvw(1); v = uvw(2); w = uvw(3);
         vw2 = (v * w)^2; wu2 = (w * u)^2; uv2 = (u * v)^2;
-        
         b111 = (vw2*b(4,4) + wu2*b(3,4) + uv2*b(4,3)) / (vw2 + wu2 + uv2);
-        Z(i) = decasteljau3([b(1,:); b(2,1), b111, b(2,3:4); b(3:4,:)],uvw);
+        b(2,2) = b111;
+        Z(i) = decasteljau3(b,uvw);
     end
 end
