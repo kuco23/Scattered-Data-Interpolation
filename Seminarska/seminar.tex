@@ -1,0 +1,150 @@
+
+\documentclass[ letterpaper, titlepage, fleqn]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[slovene]{babel}
+\usepackage[margin=60px]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage{mathabx}
+\setlength\parindent{0pt}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\F}{\mathscr{F}}
+\newcommand{\E}{\mathbb E}
+\newcommand{\FF}{\mathbb F}
+\newcommand{\K}{\mathbb K}
+\newcommand{\D}{\mathbb D}
+
+\newcommand{\mul}{\text{mul}}
+\newcommand{\add}{\text{add}}
+\newcommand{\abs}{\text{abs}}
+\newcommand{\aph}{\text{@}}
+\newcommand{\primea}{\textsc{\char13}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\scalar}[1]{\left\langle#1\right\rangle}
+\newcommand{\openbox}{\leavevmode
+  \hbox to.77778em{%
+  \hfil\vrule
+  \vbox to.675em{\hrule width.6em\vfil\hrule}%
+  \vrule\hfil}}
+
+\begin{document}
+
+\thispagestyle{empty}
+\noindent{\large
+UNIVERZA V LJUBLJANI\\[1mm]
+FAKULTETA ZA MATEMATIKO IN FIZIKO\\[5mm]
+\vfill
+
+\begin{center}{\large
+Nejc Ševerkar, Matija Šteblaj\\[2mm]
+{\bf Spojena kubična Bezierjeva krpa}\\[10mm]
+RPGO}
+\end{center}
+\vfill
+
+\noindent{\large
+Ljubljana, 2021}
+\pagebreak
+
+\thispagestyle{empty}
+\tableofcontents
+\pagebreak
+
+\section{Interpolacija razsevnih podatkov v prostoru}
+Prejšnjo metodo želimo uporabiti na problemu interpolacije točk $P = (p_i)_{i=1}^n$, kjer je $p_i = (x_i,y_i,z_i) \in \R^3$. 
+Torej mislimo si, da te podatki ležijo na grafu neke zvezno odvedljive funkcije $f$, ki pa je seveda ne poznamo.
+Spomnimo se, da metoda Goodman-Said zahteva poleg vrednosti še parcialne odvode prvega reda v točkah $(x_i,y_i)_{i=1}^n$.
+Ker teh nimamo, jih moramo oceniti.
+
+\subsection{Aproksimacija parcialnih odvodov}
+Recimo, da ocenjujemo odvoda v testni točki $p_k \in P$ (natančneje je to odvod $f$ v $(x_k,y_k)$). 
+To bomo storili v treh korakih.
+
+\begin{enumerate}
+\item Za oceno odvoda v $p_k$  bomo seveda potrebovali neke informacije o vrednostih $f$ 
+v točkah blizu $(x_k,y_k)$. Vse kar imamo na voljo so točke $(x_i,y_i)$, torej izmed njih
+izberemo tiste, ki so $(x_k,y_k)$ dovolj blizu. To naredimo z izborom radija $r_k$ in obravnavo točk $p_j \in P$, 
+za katere velja
+$$d((x_j,y_j), (x_k,y_k)) = d^k_j \in (0, r_k].$$
+Označimo množico indeksov teh z $J_k$.
+\item Ker tudi med izbranimi točkami prioritiziramo tiste, ki so naši testni točki bližje,
+jih ustrezno utežimo. Za $j \in J_k$ definiramo
+$$w^k_j := \frac{r_k - d^k_j}{r_k \cdot d^k_j},$$
+utež točke $p_j$ glede na $p_k$. 
+\item Za $p_k$ definirajmo interpolacijski polinom druge stopnje kot
+$$p(x,y) := z_k + a (x - x_k)^2 + b (x - x_k) \cdot (y - y_k) + c (y - y_k)^2 + d (x-x_k) + e(y-y_k),$$
+kjer so $a,b,c,d,e \in \R$ nedoločeni koeficienti in velja 
+$$p_x(x_k,y_k) = d \quad \text{in} \quad p_y(x_k,y_k) = e.$$
+Ti vrednosti bosta oceni za parcialna odvoda v točki $p_k$.
+Da bo to smiselno, mora ta polinom v okolici $(x_k,y_k)$ dobro aproksimirati funckijo $f$, torej $(x_j,y_j)$ za $j \in J_k$.
+Če upoštevamo še uteži posamezne točke, so vrednosti doloćene z minimizacijskim problemom
+$$\sum_{j\in J_k} (w^k_j \cdot (p(x_j,y_j) - z_j))^2 = \norm{W_k \cdot Au - W_k \cdot v}^2,$$
+kjer so za $J_k = \{j_1, j_2, \dots, j_{n_k}\}$ \\
+\begin{equation*}
+\begin{aligned}
+W_k = &
+\begin{bmatrix}
+w_{j_1}^k &  &  &  \\
+& w_{j_2}^k &  &  \\
+& & \ddots & \\
+&  &  & w_{j_{n_k}}^k
+\end{bmatrix},
+\quad
+v = 
+\begin{bmatrix}
+z_{j_1}- z_k \\
+z_{j_2} - z_k \\
+\vdots  \\
+z_{j_{n_k}} - z_k
+\end{bmatrix}, \quad
+u =
+\begin{bmatrix}
+a \\
+b \\
+c \\
+d \\
+e
+\end{bmatrix} \quad \text{in} \\[6pt]
+A =&
+\begin{bmatrix}
+(x_{j_1}- x_k)^2 &  (x_{j_1} - x_k) \cdot (y_{j_1} - y_k) & (y_{j_1} - y_k)^2 & (x_{j_1} - x_k) & (y_{j_1} - y_k) \\
+(x_{j_2} - x_k)^2 & (x_{j_2} - x_k) \cdot (y_{j_2} - y_k) & (y_{j_2} - y_k)^2 & (x_{j_2} - x_k) & (y_{j_2} - y_k) \\
+\vdots & \vdots & \vdots & \vdots & \vdots \\
+(x_{j_{n_k}} - x_k)^2 & (x_{j_{n_k}} - x_k) \cdot (y_{j_{n_k}} - y_k) & (y_{j_{n_k}} - y_k)^2 & (x_{j_{n_k}} - x_k) & (y_{j_{n_k}} - y_k) \\
+\end{bmatrix}
+\end{aligned}
+\end{equation*} 
+Seveda to rešujemo z metodo najmanjših kvadratov, kjer pa moramo predpostaviti,
+da je točk znotraj radija dovolj, torej $|J_k| \geq 5$.
+\end{enumerate}
+
+\subsection{Postopek}
+Sedaj lahko opišemo postopek interpolacije točk v $P$, ki poteka v treh korakih
+\begin{enumerate}
+\item V vsaki točki $p_k \in P$ ocenimo parcialne odvode.
+\item Trianguliramo točke $(x_i,y_i)_{i=1}^n$ z neko triangulacijsko metodo.
+\item Na vsakem trikotniku $T$ konstruiramo lokalno shemo z metodo Goodman-Said in shranimo matriko 
+koeficientov, definiranih v prvem poglavju
+\begin{equation*}
+B_T = 
+\begin{vmatrix}
+b_{300} & b_{210} & b_{120} & b_{030} \\
+b_{201} & \openbox & b_{021} & \openbox  \\
+b_{102} & b_{012} & \openbox & b_{1112} \\
+b_{003} & \openbox & b_{1113} & b_{1111}
+\end{vmatrix}
+\end{equation*}
+\end{enumerate}
+Seznam  matrik $B_T$ nad vsakem trikotniku triangulacije $T$, skupaj z njo
+definirajo naš zlepek.
+
+\end{document}

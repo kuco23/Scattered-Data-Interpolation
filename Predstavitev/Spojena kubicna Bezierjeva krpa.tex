@@ -10,6 +10,7 @@
 
 % Paketi, s katerimi določimo željene pisave:
 \usepackage{mathptmx}
+\usepackage{amsmath}
 \usepackage{helvet} % splošen font pisave
 \usepackage{courier} %font pisave v okolju verbatim
 
@@ -17,6 +18,8 @@
 \newtheorem{definicija}{Definicija}
 \newtheorem{izrek}{Izrek}
 \newtheorem{zgled}{Zgled}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\scalar}[1]{\left\langle#1\right\rangle}
 
 \mode<article>{
 \setlength{\parindent}{0cm}
@@ -89,7 +92,7 @@ Spomnimo se, da je parametrizacija  Bézierjeve krpe stopnje 3 na nekem trikotni
 \end{split}
 \]
 in njen odvod v smeri $\textbf{z} = (z_u,z_v,z_w)$ enak:
-$$\frac{\partial{P}}{\partial{\textbf{z}}} = \frac{\partial{P}}{\partial{u}} z_u+ \frac{\partial{P}}{\partial{v}} z_v+ \frac{\partial{P}}{\partial{w}} z_w = <\text{grad}(P), \textbf{z}>\text{,}$$
+$$\frac{\partial{P}}{\partial{\textbf{z}}} = \frac{\partial{P}}{\partial{u}} z_u+ \frac{\partial{P}}{\partial{v}} z_v+ \frac{\partial{P}}{\partial{w}} z_w = \scalar{\text{grad}(P), \textbf{z}}\text{,}$$
 kjer $u,v,w$ predstavljajo baricentrične koordinate v danem trikotniku.
 \end{frame}
 
@@ -217,7 +220,7 @@ Določiti moramo točke kontrolne mreže $b_{ijk}$ nad tem trikotnikom:
 \begin{frame}
 \frametitle{Shema}
 Predpisane imamo vrednosti $F(V_i)$ in parcialne odvode $F_x(V_i), F_y(V_i)$ za $V_i = (x_i, y_i)$ $i=1,2,3$. Od tod lahko dobimo smerne odvode v smeri stranic kot:
-$$F_{e_i} = \frac{\partial{F}}{\partial{e_i}}  = (x_{i-1}- x_{i+1}) F_x + (y_{i-1}-y_{i+1}) F_y = <e_i,\text{grad}(F)>$$
+$$F_{e_i} = \frac{\partial{F}}{\partial{e_i}}  = (x_{i-1}- x_{i+1}) F_x + (y_{i-1}-y_{i+1}) F_y = \scalar{e_i,\text{grad}(F)}$$
 
 S pomočjo tega lahko definiramo točke ``okoli'' enega oglišča trikotnika:
 \[
@@ -552,6 +555,102 @@ Parametrizacija na celotnem trikotniku bo konveksna kombinacija shem $P_1$, $P_2
 		&+ 6uvw \frac{v^2 w^2 \text{ } b_{111}^1 + w^2 u^2 \text{ } b_{111}^2 + u^2 v^2 \text{ }b_{111}^3}{v^2 w^2 + v^2 u^2 + u^2 w^2}
 \end{split}
 \]
+\end{frame}
+
+\begin{frame}
+\frametitle{Aproksimacija parcialnih odvodov}
+
+Naš vhodni podatek so le točke v prostoru, ker pa smo v metodi predpostavili 
+poznavanje parcialnih odvodov v vsaki od teh točk, moramo te oceniti.
+\vspace{10px}
+Recimo, da imamo dane točke
+$$P = (p_i)_i = (x_i,y_i,z_i)_i$$
+in ocenjujemo parcialna odvoda v testni točki $p_k$.
+\end{frame}
+
+\begin{frame}
+\frametitle{1. Korak}
+Odvoda v $p_k$ bomo ocenili s pomočjo točk v neki njeni okolici. 
+In sicer določimo radij $r_k$ in obravnavajmo točke $p_j \in P$ za katere $d((x_j,y_j), (x_k,y_k)) = d^k_j < r_k$.
+Recimo, da so indeksi teh $1,\dots, n_k$.
+\begin{center}
+	\includegraphics[width=230px]{slike/pointRadius.png}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{2. Korak}
+S formulo 
+$$w^k_j = \frac{r_k - d^k_j}{r_k \cdot d^k_j}$$
+je definirana utež točke $p_j$, ki izraža njen vpliv na odvod testne točke $p_k$.
+Ideja je spet ta, da so točke bližje $p_k$ bolj utežene, saj nam o odvodu povejo več.
+\end{frame}
+
+\begin{frame}
+\frametitle{3. Korak}
+Definiramo interpolacijski polinom za $p_k$, stopnje $2$
+\begin{equation*}
+\begin{aligned}
+p(x,y) &= z_k + a \cdot (x - x_k)^2 + b \cdot (x - x_k) \cdot (y - y_k) \\
+&+ c \cdot (y - y_k)^2 + d \cdot (x-x_k) + e\cdot(y-y_k),
+\end{aligned}
+\end{equation*}
+kjer so $a,b,c,d,e,$ nedoločeni členi in velja 
+$$p_x(x_k,y_k) = d \quad \text{in} \quad p_y(x_k,y_k) = e.$$
+Te vrednosti bodo ocene za parcialna odvoda v točki $p_k$.
+Neznane člene določimo s pogojem, da s polinomom
+želimo čim bolje aproksimirati vrednosti $z_j$ v točkah $(x_j,y_j)$ za $j=1,\dots,n_k$.
+\end{frame}
+
+\begin{frame}
+\frametitle{3. Korak}
+Minimiziramo torej
+$$\sum_{j =1}^{n_k} (w^k_j \cdot (p(x_j,y_j) - z_j))^2 = \norm{W_kAu - W_kv}^2,$$
+kjer je $u = [a,b,c,d,e]^T$ iskan vektor, $A$ matrika
+\begin{equation*}
+\begin{vmatrix}
+(x_1 - x_k)^2 &  (x_1 - x_k) (y_1 - y_k) & (y_1 - y_k)^2 & (x_1 - x_k) & (y_1 - y_k) \\
+(x_2 - x_k)^2 &  (x_2 - x_k) (y_2 - y_k) & (y_2 - y_k)^2 & (x_2 - x_k) & (y_2 - y_k) \\
+\vdots & \vdots & \vdots & \vdots & \vdots \\
+(x_{n_k} - x_k)^2 & (x_{n_k} - x_k) (y_{n_k} - y_k) & (y_{n_k} - y_k)^2 & (x_{n_k} - x_k) & (y_{n_k} - y_k)
+\end{vmatrix},
+\end{equation*}
+$W_k = \text{diag}(w^k_1, w^k_2, \cdots, w^k_{n_k})$ ter $v = [z_1 - z_k, \cdots, z_{n_k} - z_k]^T$.
+\end{frame}
+
+\begin{frame}
+\frametitle{3. Korak}
+\includegraphics[width=\textwidth, height=\textheight]{slike/surfInterpol.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{Interpolacija razsevnih podatkov}
+Radi bi interpolirali neko množico točk $P$ v prostoru s shemo, ki smo jo predstavili prej.
+Konstrukcija poteka v treh korakih
+\begin{enumerate}
+\item V vsaki točki $p_k$ ocenimo parcialne odvode
+\item Trianguliramo točke $(x_i,y_i)_i$
+\item Na vsakem trikotniku $T$ konstruiramo lokalno shemo z metodo Goodman-Said in shranimo matriko 
+\begin{equation*}
+B_T = 
+\begin{vmatrix}
+b_{300} & b_{210} & b_{120} & b_{030} \\
+b_{201} & \openbox & b_{021} & \openbox  \\
+b_{102} & b_{012} & \openbox & b_{1112} \\
+b_{003} & \openbox & b_{1113} & b_{1111}
+\end{vmatrix}
+\end{equation*}
+\end{enumerate}
+Matrike na vsakem trikotniku triangulacije podajo naš zlepek.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Prednost uporabljene sheme}
+Uporabljena shema je koristna, ker zahteva le aproksimacijo prvih odvodov v danih točkah.
+Če primerjamo z Argyrisovim zlepkom, je njegova aproksimacija povprečno boljša,
+a zahteva poznavanje / oceno drugih parcialnih odvodov, kar pa ga za naš problem 
+naredi manj primernega.
 \end{frame}
 
 \end{document}
