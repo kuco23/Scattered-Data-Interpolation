@@ -104,7 +104,7 @@ in njen odvod v smeri $\textbf{z} = (z_u,z_v,z_w)$ enak:
 \end{equation}
 kjer $u,v,w$ predstavljajo baricentrične koordinate v danem trikotniku.\\
 
-Recimo, da triangulacijo že imamo, in vzemimo nek trikotnik $<V_1, V_2, V_3>$ v domeni. Določiti moramo točke kontrolne mreže $b_{ijk}$ nad tem trikotnikom:
+Recimo, da triangulacijo že imamo, in vzemimo nek trikotnik $\scalar{V_1, V_2, V_3}$ v domeni. Določiti moramo točke kontrolne mreže $b_{ijk}$ nad tem trikotnikom:
 	\begin{figure}[h]
 		\centering
 		\begin{tikzpicture}[scale=0.8]
@@ -419,12 +419,12 @@ Tako definirana parametrizacija se na stranicah ujema z ustrezno lokalno paramet
 
 \section{Interpolacija razsevnih podatkov v prostoru}
 Prejšnjo metodo želimo uporabiti na problemu interpolacije točk $P = (p_i)_{i=1}^n$, kjer je $p_i = (x_i,y_i,z_i) \in \R^3$. 
-Torej mislimo si, da te podatki ležijo na grafu neke zvezno odvedljive funkcije $f$, ki pa je seveda ne poznamo.
-Spomnimo se, da metoda Goodman-Said zahteva poleg vrednosti še parcialne odvode prvega reda v točkah $(x_i,y_i)_{i=1}^n$.
+Mislimo si, da ti podatki ležijo na grafu neke zvezno odvedljive funkcije $f \colon \R^2 \to \R$, ki pa je seveda ne poznamo.
+Spomnimo se, da metoda Goodman-Said zahteva poleg vrednosti še poznavanje parcialnih odvodov prvega reda v točkah $(x_i,y_i)_{i=1}^n$.
 Ker teh nimamo, jih moramo oceniti.
 
 \subsection{Aproksimacija parcialnih odvodov}
-Recimo, da ocenjujemo odvoda v testni točki $p_k \in P$ (natančneje je to odvod $f$ v $(x_k,y_k)$). 
+Recimo, da ocenjujemo parcialna odvoda v testni točki $p_k \in P$ (natančneje sta to parcialna odvoda $f$ v $(x_k,y_k)$). 
 To bomo storili v treh korakih.
 
 \begin{enumerate}
@@ -443,9 +443,10 @@ $$p(x,y) := z_k + a (x - x_k)^2 + b (x - x_k) \cdot (y - y_k) + c (y - y_k)^2 + 
 kjer so $a,b,c,d,e \in \R$ nedoločeni koeficienti in velja 
 $$p_x(x_k,y_k) = d \quad \text{in} \quad p_y(x_k,y_k) = e.$$
 Ti vrednosti bosta oceni za parcialna odvoda v točki $p_k$.
-Da bo to smiselno, mora ta polinom v okolici $(x_k,y_k)$ dobro aproksimirati funckijo $f$, torej $(x_j,y_j)$ za $j \in J_k$.
-Če upoštevamo še uteži posamezne točke, so vrednosti doloćene z minimizacijskim problemom
-$$\sum_{j\in J_k} (w^k_j \cdot (p(x_j,y_j) - z_j))^2 = \norm{W_k \cdot Au - W_k \cdot v}^2,$$
+Da bo to smiselno, mora ta polinom v okolici $(x_k,y_k)$ dobro aproksimirati vrednosti funkcije $f$, 
+torej vrednosti $z_j$ v točkah $(x_j,y_j)$ za $j \in J_k$.
+Če upoštevamo še uteži posamezne točke, so vrednosti določene z minimizacijskim problemom
+$$\sum_{j\in J_k} (w^k_j \cdot (p(x_j,y_j) - z_j))^2 = \norm{W_k Au - W_k v}^2,$$
 kjer so za $J_k = \{j_1, j_2, \dots, j_{n_k}\}$ \\
 \begin{equation*}
 \begin{aligned}
@@ -482,8 +483,18 @@ A =&
 \end{aligned}
 \end{equation*} 
 Seveda to rešujemo z metodo najmanjših kvadratov, kjer pa moramo predpostaviti,
-da je točk znotraj radija dovolj, torej $|J_k| \geq 5$.
+da je točk znotraj radija dovolj, torej $|J_k| \geq 5$ (to lahko zagotovimo z implicitno
+definicijo radija $r_k$, ki ga definiramo kot razdalja od $n$-te najbližje točke za $n\geq 6$).
 \end{enumerate}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=7cm]{slike/derivativeest1.png}
+\includegraphics[width=7cm]{slike/derivativeest2.png} 
+\end{center} 
+\includegraphics[width=\textwidth]{slike/derivativeest4.png}
+\caption{ Trije koraki aproksimacije parcialnih odvodov.}
+\end{figure}
 
 \subsection{Postopek}
 Sedaj lahko opišemo postopek interpolacije točk v $P$, ki poteka v treh korakih
@@ -502,7 +513,32 @@ b_{003} & \openbox & b_{1113} & b_{1111}
 \end{vmatrix}
 \end{equation*}
 \end{enumerate}
-Seznam  matrik $B_T$ nad vsakem trikotniku triangulacije $T$, skupaj z njo
+Seznam  matrik $B_T$ nad vsakem trikotniku $T$ triangulacije, skupaj z njo
 definirajo naš zlepek.
+
+\section{Rezultati implementacije}
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{slike/goodmansaid-vs-argyris.png}
+\caption{ 
+Primerjava aproksimacije funkcije s shemo Goodman-Said (na levi) in Argyris (na desni),
+pri znanih odvodih na $10$-ih točkah. Vidimo, da je Argyrisova shema bolj natančna,
+a je pri problemu interpolacije točk v prostoru manj primerna, 
+saj moramo za njeno uporabo oceniti poleg prvih še druge parcialne odvode.
+}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{slike/goodmansaid-face.png}
+\caption{ Interpolacija točk v prostoru s shemo Goodman-Said. }
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{slike/goodmansaid.png}
+\caption{ 
+Interpolacija $10$-ih točk na grafu $(x,y) \mapsto \sin(x\cdot y) + \cos(x \cdot y)$ 
+s shemo Goodman-Said.
+}
+\end{figure}
 
 \end{document}
