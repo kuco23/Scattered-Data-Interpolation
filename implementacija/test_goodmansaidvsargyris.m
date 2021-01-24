@@ -1,5 +1,5 @@
 function [] = test_goodmansaidvsargyris()
-    n = 10; % stevilo aproksimacijskih tock
+    n = 150; % stevilo aproksimacijskih tock
     m = 50; % m x m je dimenzija grida, ko risemo aproksimacijo
     a = -1; b = 1; % [a,b] je interval na katerem aproksimiramo
     [f,dfx,dfy,Hf] = testfunction1();
@@ -38,4 +38,8 @@ function [] = test_goodmansaidvsargyris()
 %     subplot(1,2,2);
 %     surf(X2,Y2,reshape(abs(F2-F0),m,m));
 %     title('argyris');
+
+    %napake
+%     max(max(abs(F1-F0)))
+%     max(max(abs(F2-F0)))
 end

@@ -508,8 +508,8 @@ B_T =
 \begin{vmatrix}
 b_{300} & b_{210} & b_{120} & b_{030} \\
 b_{201} & \openbox & b_{021} & \openbox  \\
-b_{102} & b_{012} & \openbox & b_{1112} \\
-b_{003} & \openbox & b_{1113} & b_{1111}
+b_{102} & b_{012} & \openbox & b_{111}^2 \\
+b_{003} & \openbox & b_{111}^3 & b_{111}^1
 \end{vmatrix}
 \end{equation*}
 \end{enumerate}
@@ -518,22 +518,27 @@ definirajo naš zlepek.
 
 \section{Rezultati implementacije}
 
+Smiselno se zdi primerjati našo shemo z Argyrisovo, saj imata podobne predpostavke (Argyiris interpolira še druge odvode). Seveda se bo Argyrisov zlepek bolj tesno prilegal ocenjevani funkciji, vendar naša metoda iz bistveno manj podatkov doseže primerljiv rezultat:
 \begin{figure}[h]
-\includegraphics[width=\textwidth]{slike/goodmansaid-vs-argyris.png}
+\includegraphics[width=\textwidth]{slike/GSvA.png}
 \caption{ 
 Primerjava aproksimacije funkcije s shemo Goodman-Said (na levi) in Argyris (na desni),
-pri znanih odvodih na $10$-ih točkah. Vidimo, da je Argyrisova shema bolj natančna,
-a je pri problemu interpolacije točk v prostoru manj primerna, 
-saj moramo za njeno uporabo oceniti poleg prvih še druge parcialne odvode.
-}
+pri znanih odvodih na $150$-ih točkah.}
+%Vidimo, da je Argyrisova shema bolj natančna,
+%a je pri problemu interpolacije točk v prostoru manj primerna, 
+%saj moramo za njeno uporabo oceniti poleg prvih še druge parcialne odvode.
+%}
 \end{figure}
 
+Na slikah 3 in 4 lahko našo shemo primerjamo še s preprosto aproksimacijo z ravninami nad trikotniki. %pazi stevilke slik!
 \begin{figure}[h]
+\label{fig:hrib}
 \includegraphics[width=\textwidth]{slike/goodmansaid-face.png}
 \caption{ Interpolacija točk v prostoru s shemo Goodman-Said. }
 \end{figure}
 
 \begin{figure}[h]
+\label{fig:sc}
 \includegraphics[width=\textwidth]{slike/goodmansaid.png}
 \caption{ 
 Interpolacija $10$-ih točk na grafu $(x,y) \mapsto \sin(x\cdot y) + \cos(x \cdot y)$ 

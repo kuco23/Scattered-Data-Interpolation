@@ -1,7 +1,7 @@
 function [] = test_goodmansaidd()
     [f,dfx,dfy,~] = testfunction1();
     
-    n = 50; % random podatki 150/1500
+    n = 150; % random podatki 150/1500
     m = 50; % m x m meshgrid
     a = -1; b = 1; % range of approximation
     
