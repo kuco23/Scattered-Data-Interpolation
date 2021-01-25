@@ -518,7 +518,8 @@ definirajo naš zlepek.
 
 \section{Rezultati implementacije}
 
-Smiselno se zdi primerjati našo shemo z Argyrisovo, saj imata podobne predpostavke (Argyiris interpolira še druge odvode). Seveda se bo Argyrisov zlepek bolj tesno prilegal ocenjevani funkciji, vendar naša metoda iz bistveno manj podatkov doseže primerljiv rezultat:
+Smiselno se zdi primerjati našo shemo z Argyrisovo, saj imata podobne predpostavke (Argyiris interpolira še druge odvode). 
+Seveda se bo Argyrisov zlepek bolj tesno prilegal ocenjevani funkciji, vendar naša metoda iz bistveno manj podatkov doseže primerljiv rezultat:
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{slike/GSvA.png}
 \caption{ 
@@ -530,20 +531,38 @@ pri znanih odvodih na $150$-ih točkah.}
 %}
 \end{figure}
 
-Na slikah 3 in 4 lahko našo shemo primerjamo še s preprosto aproksimacijo z ravninami nad trikotniki. %pazi stevilke slik!
-\begin{figure}[h]
-\label{fig:hrib}
-\includegraphics[width=\textwidth]{slike/goodmansaid-face.png}
-\caption{ Interpolacija točk v prostoru s shemo Goodman-Said. }
+\begin{figure}
+\includegraphics[width=\textwidth]{slike/GoodmanSaid_approximation_error.png}
+\caption{ 
+Primerjava interpolacije in njene napake funkcije $(x,y) \mapsto \sin(x\cdot y) + \cos(x \cdot y)$,
+pri znanih odvodih na $30$-ih točkah. 
+}
 \end{figure}
+
+\begin{figure}
+\label{fig:gsaproxerror}
+\includegraphics[width=\textwidth]{slike/GoodmanSaid_approximationwd_error.png}
+\caption{ 
+Primerjava interpolacije in njene napake funkcije $(x,y) \mapsto \sin(x\cdot y) + \cos(x \cdot y)$,
+pri neznanih odvodih na $30$-ih točkah. 
+}
+\end{figure}
+
+%Na slikah 5 in 6 lahko našo shemo primerjamo še s preprosto aproksimacijo z ravninami nad trikotniki. %pazi stevilke slik!
 
 \begin{figure}[h]
 \label{fig:sc}
 \includegraphics[width=\textwidth]{slike/goodmansaid.png}
 \caption{ 
-Interpolacija $10$-ih točk na grafu $(x,y) \mapsto \sin(x\cdot y) + \cos(x \cdot y)$ 
-s shemo Goodman-Said.
+Primerjava navadne triangulacije $10$-ih testnih točk na grafu $(x,y) \mapsto \sin(x\cdot y) + \cos(x \cdot y)$ 
+z njihovo interpolacijo ob shemi Goodman-Said.
 }
+\end{figure}
+
+\begin{figure}[h]
+\label{fig:hrib}
+\includegraphics[width=\textwidth]{slike/goodmansaid-face.png}
+\caption{ Interpolacija točk v prostoru s shemo Goodman-Said. }
 \end{figure}
 
 \end{document}

@@ -1,7 +1,7 @@
 function [] = test_goodmansaid()
-    f = testfunction1();
+    f = testfunction3();
     
-    n = 50; % random podatki
+    n = 20; % random podatki
     m = 50; % m x m meshgrid
     a = -1; b=1; % range of approximation
     
