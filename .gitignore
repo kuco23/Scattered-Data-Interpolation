@@ -1,4 +1,5 @@
 *.asv
 *.gz
 *.log
+*test*.m
 implementacija/face
