@@ -1,0 +1,33 @@
+3D animated face v 1.0
+http://tosca.cs.technion.ac.il/book/resources_data.html
+(c) Michael Bronstein, 2006-2009
+
+DESCRIPTION:
+
+An animated three-dimensional face showing different facial expressions, 
+acquired using a real-time range camera. The acquisition speed is approximately 
+3 frames/sec. The database contains 15 expressions of the same face, represented 
+as a textured shape. Each object contains approximately 2000 vertices. 
+Two representations are available: MATLAB file (.mat) and ASCII text files 
+containing the 1-based list of triangular faces (.tri), a list of vertex XYZ
+coordinates (.vert), and a list of [0...1] texture intensity levels (.text). 
+A .png thumbnail is available for each object. A MATLAB function for reading 
+the data is supplied. 
+
+LICENSE:
+
+This data set is distributed as part of the TOSCA (Toolbox for
+Surface Comparison and Analysis) project and may be used for
+academic purposes. Any publication using the database should mention
+a reference of [1-2] below.
+
+
+REFERENCES:
+
+[1] A. M. Bronstein, M. M. Bronstein, R. Kimmel, Numerical geometry
+of non-rigid shapes, Springer, 2008.
+
+[2] A. M. Bronstein, M. M. Bronstein, R. Kimmel, Calculus of
+non-rigid surfaces for geometry and texture manipulation, IEEE
+Trans. Visualization and Computer Graphics, Vol. 13/5, pp. 902-913,
+2007.
